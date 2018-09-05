@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     <record id="action_wizard_mr" model="ir.actions.act_window">
+        <field name="name">Manufacturing Reports</field>
+        <field name="res_model">wizard.mr</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <!-- <field name="view_id" ref="view_mr_wizard"/> -->
+        <field name="target">new</field>
+    </record>
+    
+    <record id="view_mr_wizard" model="ir.ui.view">
+        <field name="name">Manufacturing Reports</field>
+        <field name="model">wizard.mr</field>
+        <field name="arch" type="xml">
+        <form string="Wizard">
+            <group string="Manufacturing Reports">
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="report_type" string="Report Type"/>
+                <field name="warehouse"  attrs="{'invisible':[('report_type','=',False)]}" />    
+                <field name="location" attrs="{'invisible':[('warehouse','=',False)]}" widget="many2many_tags"  options="{'no_create': True}" domain="[('Wr_id','=',warehouse)]"/>
+                <field name="mo_ref" widget="many2many_tags" options="{'no_create_edit': True}" 
+                    attrs="{'invisible':[('report_type','!=','consumption_summary')]}"  
+                    domain="[('location_dest_id','in',location[0][2]),('create_date','&gt;=',date_from),('create_date','&lt;=',date_to),('state','=','done')]"/>   
+            </group>
+            <notebook>
+                <page string="Category" attrs="{'invisible':['|',('report_type','=','consumption_summary'),('report_type','=',False)]}">
+                    <field name="product_categ"  >
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+            <group>
+                <field name="product"  
+                    options="{'no_create': True}" domain="[('categ_id','in',product_categ[0][2])]" 
+                    attrs="{'invisible':['|',('report_type','=','consumption_summary'),('report_type','=',False)]}">
+                    
+                    <tree>
+                        <field name="name"/>
+                    </tree>
+                </field>
+            </group>
+            <footer>
+                <button name="export_xls" type="object" default_focus="1"
+                    string="Export Manufacturing Info" class="oe_highlight"
+                    context="{'xls_export':1}" icon="fa-download"/>
+                    or
+                <button string="Cancel" class="oe_link" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+    <menuitem    
+                action="action_wizard_mr"
+                id="menu_action_wizard_mr" 
+                parent="mrp.menu_mrp_reporting"
+                sequence="12"/>
+                
+    <report
+            id="mr_xlsx"
+            model="wizard.mr"
+            string="Manufacturing Reports"
+            report_type="xlsx"
+            name="manufacturing_report_xls.mr_xls.xlsx"
+            file="manufacturing_report_xls.mr_xls.xlsx"
+            attachment_use="False"
+        />
+
+
+    <report
+            id="mcr_xlsx"
+            model="wizard.mr"
+            string="Manufacturing Reports"
+            report_type="xlsx"
+            name="manufacturing_c_report_xls.mcr_xls.xlsx"
+            file="manufacturing_c_report_xls.mcr_xls.xlsx"
+            attachment_use="False"
+        />
+    
+    <report
+            id="sd_xlsx"
+            model="wizard.mr"
+            string="Manufacturing Reports"
+            report_type="xlsx"
+            name="manufacturing_sd_report_xls.sd_xls.xlsx"
+            file="manufacturing_sd_report_xls.sd_xls.xlsx"
+            attachment_use="False"
+        />
+    </data>
+</odoo>
