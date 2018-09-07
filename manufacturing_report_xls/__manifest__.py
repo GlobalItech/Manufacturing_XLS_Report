@@ -1,6 +1,6 @@
 {
     'name': 'Export Manufacturing Reports in Excel',
-    'author': 'Itech reosurces',
+    'author': 'Itech resources',
     'company': 'ItechResources',
     'depends': [
                 'base',
