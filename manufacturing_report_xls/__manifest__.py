@@ -1,5 +1,5 @@
 {
-    'name': 'Export Manufacturing Reports in Excel',
+    'name': 'Manufacturing Reports in Excel',
     'author': 'Itech resources',
     'company': 'ItechResources',
     'depends': [
