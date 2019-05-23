@@ -58,7 +58,7 @@ class McrReportXls(ReportXlsx):
         return lines
 
     def generate_xlsx_report(self, workbook, data, lines):
-        sheet = workbook.add_worksheet()
+        sheet = workbook.add_worksheet('a')
         report_name = data['form']['report_type']
         
         format1 = workbook.add_format({'font_size': 14, 'bottom': True, 'right': True, 'left': True, 'top': True, 'align': 'center', 'bold': True})
