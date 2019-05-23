@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="manufacturing_production_sum" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+            
+            <!-- Add sum in form view of MRP Production on "Consumed Material" Page -->
+                <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='quantity_available']" position="attributes">
+                    <attribute name="sum">Total</attribute> 
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="sum">Total</attribute> 
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='quantity_done']" position="attributes">
+                    <attribute name="sum">Total</attribute> 
+                </xpath>
+                
+                <!-- Add sum in form view of MRP Production on "Finished Page" Page -->
+                <xpath expr="//form/sheet/notebook/page[2]/field/tree/field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="sum">Total</attribute> 
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[2]/field/tree/field[@name='quantity_done']" position="attributes">
+                    <attribute name="sum">Total</attribute> 
+                </xpath>
+                
+            </field>
+        </record>
+        
+        <record id="manufacturing_bom_sum" model="ir.ui.view">
+            <field name="name">mrp.bom.form</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+            <!-- Add sum in form view of MRP BOM on "Components" Page -->
+                <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='product_qty']" position="attributes">
+                    <attribute name="sum">Total</attribute> 
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="manufacturing_byproduct_sum" model="ir.ui.view">
+            <field name="name">mrp.bom.sub.product</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp_byproduct.mrp_subproduct_view"/>
+            <field name="arch" type="xml">
+            <!-- Add sum in form view of MRP BOM on "Byproducts" Page     -->
+                <xpath expr="//notebook/page/field[@name='sub_products']/tree/field[@name='product_qty']" position="attributes">
+                    <attribute name="sum">Total</attribute>              
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
