@@ -15,11 +15,13 @@ class CostReport(models.TransientModel):
     
     warehouse = fields.Many2one('stock.warehouse', string='Warehouse')
     mo_ref= fields.Many2many('mrp.production', string='MO Reference')
+    mo_ref1= fields.Many2many('mrp.production', string='MO Reference')
     product_categ= fields.Many2many('product.category', string="Product Category")
     location = fields.Many2many('stock.location')
     product =fields.Many2many('product.product', string='Product')
     report_type = fields.Selection([('grand_production_summary','Grand Production Summary'),
                                     ('consumption_summary','Production Receipt and Consumption Summary'),
+                                    ('work_centers_wise','Manufacturing Orders in Process Report'),
                                     ('grand_production_summary_sd','Grand Production Summary Scheduled Date')],
                                     string='Relative')
     
@@ -57,6 +59,12 @@ class CostReport(models.TransientModel):
                             'name': 'Consumption Summary'
                             }
                     
+                elif datas['form']['report_type'] == 'work_centers_wise':
+                    return {'type': 'ir.actions.report.xml',
+                            'report_name': 'manufacturing_w_report_xls.work_xls.xlsx',
+                            'datas': datas,
+                            'name': 'Manufacturing Orders in Process Report'
+                            }
                 elif datas['form']['report_type'] == 'grand_production_summary_sd':
                     return {'type': 'ir.actions.report.xml',
                             'report_name': 'manufacturing_sd_report_xls.sd_xls.xlsx',
